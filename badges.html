@@ -1,0 +1,17 @@
+<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Badges</title>
+<style>body{font-family:system-ui,sans-serif;max-width:720px;margin:0;padding:1rem}.badge{padding:.5rem;border:1px solid #e5e7eb;border-radius:12px;margin:.5rem 0}</style>
+<h1>Badges</h1>
+<div id="b"></div>
+<script>
+const xp = Number(localStorage.getItem('xp')||0);
+const BADGES = [
+  {xp:10,name:'First Steps'},
+  {xp:30,name:'Gentle Momentum'},
+  {xp:60,name:'Compassion Carrier'},
+  {xp:100,name:'Glow Guardian'}
+];
+document.getElementById('b').innerHTML = BADGES.map(b =>
+  `<div class="badge">${xp>=b.xp?'🏅':'🔒'} ${b.name} — requires ${b.xp} XP</div>`
+).join('');
+</script>
