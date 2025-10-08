@@ -1,0 +1,49 @@
+<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Quests</title>
+<style>body{font-family:system-ui,sans-serif;max-width:720px;margin:0;padding:1rem}.card{border:1px solid #e5e7eb;border-radius:14px;padding:1rem;margin:.75rem 0}button{padding:.6rem 1rem;border-radius:999px;border:1px solid #0f766e}</style>
+<h1>Quests</h1>
+<div id="list"></div>
+<p>XP: <strong id="xp">0</strong></p>
+<script>
+const QUESTS = {
+  gentle: [
+    { id:'breath60', name:'60s breathing', xp:5 },
+    { id:'sip', name:'Sip water mindfully', xp:5 },
+    { id:'step_out', name:'Step outside for 2 min', xp:10 }
+  ],
+  compassion: [
+    { id:'self_note', name:'Write 1 kind sentence to self', xp:8 },
+    { id:'micro_rest', name:'3-min micro-rest', xp:6 },
+    { id:'check_in', name:'Feelings check-in (1 word)', xp:6 }
+  ]
+};
+const path = localStorage.getItem('path') || 'gentle';
+const done = JSON.parse(localStorage.getItem('done_'+path) || '[]');
+let xp = Number(localStorage.getItem('xp')||0);
+document.getElementById('xp').textContent = xp;
+
+function render(){
+  const wrap = document.getElementById('list'); wrap.innerHTML='';
+  (QUESTS[path]||[]).forEach(q=>{
+    const card=document.createElement('div'); card.className='card';
+    const btn=document.createElement('button'); btn.textContent=done.includes(q.id)?'Completed ✓':'Complete';
+    btn.onclick=()=>complete(q);
+    card.innerHTML=`<h3>${q.name}</h3><p>+${q.xp} XP</p>`;
+    card.appendChild(btn);
+    wrap.appendChild(card);
+  });
+}
+function complete(q){
+  const arr=new Set(JSON.parse(localStorage.getItem('done_'+path)||'[]'));
+  if(!arr.has(q.id)){
+    arr.add(q.id);
+    localStorage.setItem('done_'+path, JSON.stringify([...arr]));
+    xp += q.xp; localStorage.setItem('xp', xp);
+    const w = Number(localStorage.getItem('weeklyProgress')||0)+1;
+    localStorage.setItem('weeklyProgress', w);
+    alert(`Nice. +${q.xp} XP`);
+    location.reload();
+  }
+}
+render();
+</script>
