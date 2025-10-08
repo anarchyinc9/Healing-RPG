@@ -1,0 +1,20 @@
+<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Growth+</title>
+<style>body{font-family:system-ui,sans-serif;max-width:720px;margin:0;padding:1rem}input,button{padding:.6rem;border-radius:8px;border:1px solid #ccc;margin-right:.5rem}</style>
+<h1>Growth+ (Members)</h1>
+<p>Enter this month’s access code to unlock premium quests.</p>
+<input id="code" placeholder="Access code"><button onclick="unlock()">Unlock</button>
+<div id="content" style="display:none">
+  <h2>Premium Quests</h2>
+  <ul><li>Evening reset ritual</li><li>Compassion letter mini</li><li>Sensory soother playlist</li></ul>
+</div>
+<script>
+function unlock(){
+  const c = document.getElementById('code').value.trim().toLowerCase();
+  if(c === 'sunrise-ember'){ localStorage.setItem('growth_ok','1'); }
+  if(localStorage.getItem('growth_ok')==='1'){
+    document.getElementById('content').style.display='block';
+  } else { alert('Invalid code'); }
+}
+if(localStorage.getItem('growth_ok')==='1'){ document.getElementById('content').style.display='block'; }
+</script>
