@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Healing RPG</title>
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#0f766e">
+  <style>
+    body { font-family: system-ui, sans-serif; margin:0; padding:1rem; max-width:720px; }
+    nav a { margin-right: .75rem; }
+    .card { border:1px solid #e5e7eb; border-radius:14px; padding:1rem; margin:.75rem 0; }
+    .btn { padding:.6rem 1rem; border-radius:999px; border:1px solid #0f766e; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/quests.html">Quests</a>
+    <a href="/badges.html">Badges</a>
+    <a href="/community.html">Community</a>
+    <a href="/growth.html">Growth+</a>
+  </nav>
+
+  <h1>Healing RPG</h1>
+  <p>Pick a path. Complete tiny quests. Earn badges. Help the community level up.</p>
+
+  <div class="card">
+    <h2>Choose Your Path</h2>
+    <button class="btn" onclick="selectPath('gentle')">The Gentle Path</button>
+    <button class="btn" onclick="selectPath('compassion')">Compassion Quest</button>
+  </div>
+
+  <div class="card">
+    <h3>Community Goal</h3>
+    <p>This week’s target: <strong id="goal">250</strong> completions</p>
+    <p>Progress: <strong id="progress">0</strong></p>
+    <progress id="bar" value="0" max="250" style="width:100%"></progress>
+  </div>
+
+  <script>
+    // PWA register
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/service-worker.js');
+    }
+
+    // Simple state
+    const progress = Number(localStorage.getItem('weeklyProgress') || 0);
+    document.getElementById('progress').textContent = progress;
+    document.getElementById('bar').value = progress;
+
+    function selectPath(key){
+      localStorage.setItem('path', key);
+      location.href = '/quests.html';
+    }
+  </script>
+</body>
+</html>
